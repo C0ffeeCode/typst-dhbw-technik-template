@@ -1,0 +1,10 @@
+
+[default.extend-words]
+Mosquitto = "Mosquitto"
+Hashi = "Hashi" # HashiCorp Vault
+
+[files]
+extend-exclude = [
+    "/template.typ",
+    "/images/"
+]
