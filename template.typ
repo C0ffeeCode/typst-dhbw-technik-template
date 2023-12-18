@@ -32,13 +32,13 @@
   university: (
     name: "Cooperative State University Baden-Württemberg",
     location: "Stuttgart",
-    image: "assets/dhbw.png",
+    image: "assets/dhbw.svg",
   ),
 
   // Details on your company
   company: (
     name: "Hewlett Packard Enterprise",
-    image: "assets/hpe.png",
+    image: "assets/hpe.svg",
   ),
 
   // Does the document require a Confidentiality Clause?
