@@ -47,7 +47,7 @@
 	// Path to your bibliography file
 	// You may use `.yml` for Hayagriva format
 	// or `.bib` for BibLaTeX format
-	bibliography_path: "literature.yaml",
+	bibliography_path: "literature.yml",
 
 	// The contents of your abstract
 	abstract: include "./abstract.typ",
