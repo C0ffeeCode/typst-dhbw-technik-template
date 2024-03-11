@@ -108,22 +108,28 @@
 
 	// modify the spacing between various headings and the content below them
 	#show heading: it => {
-	let sizes = if it.level == 1 {
-		(64pt, 24pt, 24pt)
-	} else if it.level == 2 {
-		(32pt, 20pt, 18pt)
-	} else {
-		(24pt, 16pt, 14pt)
-	}
+		let sizes = if it.level == 1 {
+			(64pt, 24pt, 24pt)
+		} else if it.level == 2 {
+			(32pt, 20pt, 18pt)
+		} else {
+			(24pt, 16pt, 14pt)
+		}
 
-	[
-		#set text(size: sizes.at(2))
-		#v(sizes.at(0))
-		#if it.numbering != none [
-			#counter(heading).display(it.numbering) #h(4pt) #it.body
-		] else [#it.body]
-		#v(sizes.at(1))
-	]
+		// On top-level headers, do a weak pagebreak
+		// (weak = no pagebreak on already blank pages)
+		if it.level == 1 {
+			pagebreak(weak: true)
+		}
+
+		[
+			#set text(size: sizes.at(2))
+			#v(sizes.at(0))
+			#if it.numbering != none [
+				#counter(heading).display(it.numbering) #h(4pt) #it.body
+			] else [#it.body]
+			#v(sizes.at(1))
+		]
 	}
 	// Alternative formating for headdings
 	// #show heading: it => {
