@@ -2,6 +2,88 @@
 #let acronyms = yaml("acronyms.yml");
 #let acroStates = state("acronymStates", ());
 
+#let english_pack = (
+	degree_1: "for the",
+	degree_2: "from the Course of Studies Computer Science",
+	by: "by",
+	time_period: "Time Period",
+	student_id_course: "Student ID, Course",
+	company: "Company",
+	supervisor: "Supervisor in the Company",
+	decleration: (type, title) => [
+		= Author's Declaration
+
+		Hereby I solemnly declare:
+
+		+ that this #type, titled #text(style: "italic")[#title] is entirely the product of my own scholarly work, unless otherwise indicated in the text or references, or acknowledged below;
+
+		+ I have indicated the thoughts adopted directly or indirectly from other sources at the appropriate places within the document;
+
+		+ this #type has not been submitted either in whole or part, for a degree at this or any other university or institution;
+
+		+ I have not published this #type in the past;
+
+		// + the printed version is equivalent to the submitted one.
+
+		I am aware that a dishonest declaration will entail legal consequences.
+	],
+	abstract: "Abstract",
+	contents: "Contents",
+	list_of_figures: "List of Figures",
+	acronyms: "Acronyms",
+	bibliography: "Bibliography",
+	chapter: "Chapter",
+	section: "Section",
+	confidentiality_clause: [
+		= Confidentiality Clause
+
+		The content of this work may not be made accessible to people outside of the
+		testing process and the evaluation process neither as a whole nor as excerpts,
+		unless an authorization stating otherwise is presented by the training facility.
+	]
+)
+
+// TODO: Check alignment to LaTeX template
+#let german_pack = (
+	degree_1: "für den",
+	degree_2: "im Studiengang Informatik an der Dualen Hochschule Baden-Württemberg Stuttgart",
+	by: "von",
+	time_period: "Bearbeitungszeitraum",
+	student_id_course: "Matrikelnummer, Kurs",
+	company: "Ausbildungsfirma",
+	supervisor: "Betreuer",
+	decleration: (type, title) => [
+		== Erklärung
+
+		Ich erkläre hiermit ehrenwörtlich:
+		+ dass ich meine #type mit dem Thema #title ohne fremde Hilfe
+			angefertigt habe;
+		+ dass ich die Übernahme wörtlicher Zitate aus der Literatur sowie die Verwendung
+			der Gedanken anderer Autoren an den entsprechenden Stellen innerhalb der
+			Arbeit gekennzeichnet habe;
+		+ dass ich meine T1000 bei keiner anderen Prüfung vorgelegt habe;
+
+		Ich bin mir bewusst, dass eine falsche Erklärung rechtliche Folgen haben wird.
+
+		#title
+		*a big & fat _TODO_!*
+	],
+	abstract: "Abstract",
+	contents: "Inhaltsverzeichnis",
+	list_of_figures: "Abbildungsverzeichnis",
+	acronyms: "Abkürzungsverzeichnis",
+	bibliography: "Literaturverzeichnis",
+	chapter: "Kapitel",
+	section: "Abschnitt",
+	confidentiality_clause: [
+		= Sperrvermerk
+	
+		Der Inhalt dieser Arbeit darf weder als Ganzes noch in Auszügen Personen außerhalb des
+		Prüfungs- und des Evaluationsverfahrens zugänglich gemacht werden, sofern keine anders
+		lautende Genehmigung des Dualen Partners vorliegt.
+	]
+)
+
 #let thesis(
 	// the title of your thesis
 	title: none,
@@ -27,6 +109,8 @@
 	degree: "Bachelor of Science",
 	// your major, such as "Computer Science"
 	major: "Computer Science",
+	// Change the language to `de` if desired
+	language: "en",
 
 	// Details on your university
 	university: (
@@ -69,6 +153,9 @@
 	#assert.ne(time_period, none)
 	#assert.ne(supervisor, none)
 
+	// Use english by default
+	#let selected_lang = if language == "de" {german_pack} else {english_pack}
+
 	#set document(
 		title: title,
 		author: author,
@@ -86,7 +173,7 @@
 		// font: "Linux Biolinum O",
 		size: 12pt,
 		hyphenate: false,
-		lang: "en",
+		lang: language,
 		ligatures: true,
 	)
 
@@ -170,9 +257,9 @@
 	// rename level 1 headings to "Chapter", otherwise "Section"
 	#set ref(supplement: it => {
 		if it.func() == heading and it.level == 1 {
-			"Chapter"
+			selected_lang.chapter
 		} else {
-			"Section"
+			selected_lang.section
 		}
 	})
 
@@ -182,13 +269,13 @@
 
 	// nice
 	#grid(
-	columns: (1fr, 1fr),
-	align(center)[
-		#image(company.image, width: 69%)
-	],
-	align(center)[
-		#image(university.image, width: 69%)
-	],
+		columns: (1fr, 1fr),
+		align(center)[
+			#image(company.image, width: 69%)
+		],
+		align(center)[
+			#image(university.image, width: 69%)
+		],
 	)
 	#v(64pt)
 
@@ -200,14 +287,14 @@
 	#text(16pt)[*#type*]
 	#v(16pt)
 
-	#text(14pt)[for the]
+	#text(14pt, selected_lang.degree_1)
 
 	#text(14pt)[*#degree*]
 
-	#text(14pt)[from the Course of Studies #major]
+	#text(14pt)[#selected_lang.degree_2 #major]
 	#v(32pt)
 
-	#text(14pt)[by]
+	#text(14pt, selected_lang.by)
 
 	#text(16pt)[*#author*]
 	#v(16pt)
@@ -219,10 +306,10 @@
 	#grid(
 		columns: (1fr, 0.5fr, 1fr),
 		align(left)[
-			*Time Period* \
-			*Student ID, Course* \
-			*Company* \
-			*Supervisor in the Company*
+			*#selected_lang.time_period* \
+			*#selected_lang.student_id_course* \
+			*#selected_lang.company* \
+			*#selected_lang.supervisor*
 		],
 		none,
 		align(left)[
@@ -242,27 +329,17 @@
 	#counter(page).update(1)
 
 	// https://www.dhbw.de/fileadmin/user_upload/Dokumente/Broschueren_Handbuch_Betriebe/Infoblatt_Vertraulichkeit.pdf
-	#if confidentiality_clause [
-	== Confidentiality Clause
-
-	The content of this work may not be made accessible to people outside of the
-	testing process and the evaluation process neither as a whole nor as excerpts,
-	unless an authorization stating otherwise is presented by the training facility.
-
-	// #text(lang: "de")[
-	//   Der Inhalt dieser Arbeit darf weder als Ganzes noch in Auszügen Personen außerhalb des
-	//   Prüfungs- und des Evaluationsverfahrens zugänglich gemacht werden, sofern keine anders
-	//   lautende Genehmigung des Dualen Partners vorliegt.
-	// ]
-
-	#pagebreak()
-	]
+	// English by default
+	#if confidentiality_clause {
+		selected_lang.confidentiality_clause
+		pagebreak(weak: true)
+	}
 
 	// render the abstract aligned to the center of the page
 	#set align(horizon)
 	#set align(center)
 
-	== Abstract
+	#heading(outlined: true, selected_lang.abstract)
 
 	#block(width: 70%)[#abstract]
 
@@ -271,21 +348,8 @@
 	#set align(top)
 	#set align(start)
 
-	= Author's Declaration
-
-	Hereby I solemnly declare:
-
-	+ that this #type, titled #text(style: "italic")[#title] is entirely the product of my own scholarly work, unless otherwise indicated in the text or references, or acknowledged below;
-
-	+ I have indicated the thoughts adopted directly or indirectly from other sources at the appropriate places within the document;
-
-	+ this #type has not been submitted either in whole or part, for a degree at this or any other university or institution;
-
-	+ I have not published this #type in the past;
-
-	// - the printed version is equivalent to the submitted one.
-
-	I am aware that a dishonest declaration will entail legal consequences.
+	#(selected_lang.decleration)(type, title)
+	
 	#v(48pt)
 
 	#university.location, #date
@@ -310,7 +374,7 @@
 
 	#pagebreak()
 
-	= Contents
+	= #selected_lang.contents
 
 	#locate(loc => {
 		let headings = query(heading, loc)
@@ -324,7 +388,7 @@
 			}
 
 			// similarly, track the end of the main content by the position of the "Bibliography" chapter
-			if elem.body == [Bibliography] {
+			if elem.body == [#selected_lang.bibliography] {
 				after_content = true
 			}
 
@@ -363,20 +427,21 @@
 			// non-chapter headings have their line filled with dots
 			let spacer = if is_chapter { " " } else { " . " }
 
-			if elem.body != [Abstract] and elem.body != [Confidentiality Clause] {
-			link(
-				location,
-				[
-				#h(indent)
-				// add extra spacing between chapters
-				#if is_chapter {v(1pt)}
-				// chapters are bold, sections are not
-				#if is_chapter [*#formatted_name*] else [#formatted_name]
-				#box(width: 1fr, repeat(spacer))
-				#h(8pt)
-				#if is_chapter [*#formatted_index*] else [#formatted_index] \
-				],
-			)
+			// if elem.body != [#selected_lang.abstract] and elem.outlined != false {
+			if elem.outlined != false {
+				link(
+					location,
+					[
+						#h(indent)
+						// add extra spacing between chapters
+						#if is_chapter {v(1pt)}
+						// chapters are bold, sections are not
+						#if is_chapter [*#formatted_name*] else [#formatted_name]
+						#box(width: 1fr, repeat(spacer))
+						#h(8pt)
+						#if is_chapter [*#formatted_index*] else [#formatted_index] \
+					],
+				)
 			}
 		}
 	})
@@ -397,17 +462,17 @@
 	// start adding headings to the outline after the table of contents
 	#set heading(outlined: true)
 
-	// = List of Figures
-
 	#show outline.entry: it => [
 		#v(12pt, weak: true) #it
 	]
 
-	#outline(target: figure, title: "List of Figures", fill: repeat(" . "))
+	// List of figures
+	= #selected_lang.list_of_figures
+	#outline(target: figure, title: none, fill: repeat(" . "))
 
 	#pagebreak()
 
-	= Acronyms
+	= #selected_lang.acronyms
 
 	#let acroArr = ();
 	#for (k, v) in acronyms.pairs().sorted(key: s => lower(s.at(0))) {
@@ -422,7 +487,7 @@
 		..acroArr,
 	)
 
-	#pagebreak()
+	#pagebreak(weak: true)
 
 	// update heading and page numberings to begin the main part of the document
 	#set heading(numbering: "1.1")
@@ -434,7 +499,7 @@
 
 	// finally, include the bibliography chapter at the end of the document
 	#pagebreak()
-	#bibliography(bibliography_path, style: "ieee")
+	#bibliography(bibliography_path, title: selected_lang.bibliography, style: "ieee")
 ]
 
 // `pref` if to prefer the long form

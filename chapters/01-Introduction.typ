@@ -10,6 +10,9 @@ Also, make sure to read the #link("https://typst.app/docs/")[Typst documentation
 This template is for english documents only (for now),
 but one could translate it...
 
+To configure your the language of your thesis,
+set the `language` parameter to either `en` (default) or `de`.
+
 *Note* that the template needs to know your first chapter,
 you can supply it if it is not "Introduction" using the `first_chapter_title` parameter.
 
@@ -17,16 +20,18 @@ you can supply it if it is not "Introduction" using the `first_chapter_title` pa
   #show: thesis.with(
     ...
     first_chapter_title = "Introduction but with another title",
+    language: "en",
   )
   ```, kind: "code", supplement: "Code example",
-  caption: [Code example explaining how to configure a different first chapter]
+  caption: [Code example explaining how to configure language and a different first chapter]
 )
 
 == Bibliography
 
 As for bibliography / reference listing,
-you may decide whether to use Hayagriva, a yaml-based format format designed for Typst
-or BibTeX (`.bib`) format, which is well supported by other platforms since it is commonly used by LaTeX.
+you may decide whether to use "Hayagriva", a yaml-based format format designed for Typst
+or BibTeX (`.bib`) format, which is _well supported by other platforms
+and tooling_ since it is commonly used by LaTeX.
 To switch between bibliography formats, change the above to the following:
 
 #figure(```typ

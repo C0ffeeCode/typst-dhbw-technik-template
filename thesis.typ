@@ -8,6 +8,8 @@
   course: "TINF2XA",
   date: "00.00.2024",
   time_period: "01.01.2023 - 00.00.2024",
+  confidentiality_clause: true,
+  language: "en",
   supervisor: "Someone",
   signature: none, // TODO
 )
