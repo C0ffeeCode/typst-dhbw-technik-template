@@ -262,6 +262,8 @@
 			} else {
 				selected_lang.section
 			}
+		} else {
+			it.supplement
 		}
 	})
 
