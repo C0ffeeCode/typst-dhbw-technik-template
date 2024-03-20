@@ -256,10 +256,12 @@
 
 	// rename level 1 headings to "Chapter", otherwise "Section"
 	#set ref(supplement: it => {
-		if it.func() == heading and it.level == 1 {
-			selected_lang.chapter
-		} else {
-			selected_lang.section
+		if it.func() == heading {
+			if it.level == 1 {
+				selected_lang.chapter
+			} else {
+				selected_lang.section
+			}
 		}
 	})
 
