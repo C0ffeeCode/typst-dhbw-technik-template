@@ -36,4 +36,4 @@ but I am too lazy to explain.
 
 = Summary and Conclusion
 
-#lorem(100)
+#lorem(250)

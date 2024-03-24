@@ -26,6 +26,13 @@ you can supply it if it is not "Introduction" using the `first_chapter_title` pa
   caption: [Code example explaining how to configure language and a different first chapter]
 )
 
+// By default, the template will *not* apply a pagebreak
+// on non-top-level headings to avoid headings without content
+// on the same page but can be enabled.
+// The threshold percentage on the page can be configured
+// by providing the `heading_pagebreak_percentage` propery like `0.7` or `none`.
+// Top-level headings will always have a (weak) pagebreak.
+
 == Bibliography
 
 As for bibliography / reference listing,
