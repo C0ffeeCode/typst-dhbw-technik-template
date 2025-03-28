@@ -129,6 +129,8 @@
 
 	// Does the document require a Confidentiality Clause?
 	confidentiality_clause: false,
+	// List of additional files/chapters to place between title page and table of contents
+	additional_preamble: (),
 
 	// Path to your bibliography file
 	// You may use `.yml` for Hayagriva format
@@ -334,6 +336,11 @@
 	// English by default
 	#if confidentiality_clause {
 		selected_lang.confidentiality_clause
+		pagebreak(weak: true)
+	}
+
+	#for i in additional_preamble {
+		include str(i)
 		pagebreak(weak: true)
 	}
 
