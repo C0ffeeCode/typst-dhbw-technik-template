@@ -150,11 +150,10 @@
 	// This is *not* required anymore
 	// first_chapter_title: none,
 
-	// Factor of page location when to pagebreak headings
+	// If headings should stick to the following block
 	// to avoid a heading without content on the same page.
-	// Can be disabled by setting it to none
-	// WARNING: can result in "layout did not converge within 5 attempts" issue
-	heading_pagebreak_percentage: none,
+	// Can be disabled by setting it to `false`
+	keep_heading_with_content: true,
 
 	// set automatically by using the template via `#show: thesis.with(...)
 	body,
@@ -227,24 +226,9 @@
 		// (weak = no pagebreak on already blank pages)
 		if it.level == 1 {
 			pagebreak(weak: true)
-		} else if heading_pagebreak_percentage != none {
-			// If a heading would start at the very end of a page,
-			// it would not look right => pagebreak
-			context {
-			  let here_abs = here().position().y
-				let here_rel = here_abs.abs / page.height
-
-				if here_rel > heading_pagebreak_percentage {
-					// Write but hide to assess location correctly
-					// Hidden will not have any influence
-					// on the output besides correct calculation
-					hide[#here_abs.abs #page.height rel: #here_rel%]
-					pagebreak(weak: true)
-				}
-			}
 		}
 
-		[
+		block(sticky: keep_heading_with_content)[
 			#set text(size: sizes.at(2))
 			#v(sizes.at(0))
 			#if it.numbering != none [
