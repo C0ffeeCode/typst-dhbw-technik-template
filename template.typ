@@ -137,7 +137,7 @@
 	// Path to your bibliography file
 	// You may use `.yml` for Hayagriva format
 	// or `.bib` for BibLaTeX format
-	bibliography_path: "literature.yml",
+	bibliography_path: "literature.bib",
 	// Citation style:
 	// Customized includes ISBNs and
 	// writes DOI in capital letters
@@ -188,6 +188,7 @@
 	// suggested font and font size by the DHBW style guide
 	#set text(
 		font: "Libertinus Serif",
+		// font: "New Computer Modern",
 		// font: "New Computer Modern Sans",
 		size: 12pt,
 		hyphenate: false,

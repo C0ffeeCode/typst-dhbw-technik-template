@@ -16,6 +16,10 @@
   language: "en",
   supervisor: "Someone",
   signature: none, // TODO
+	bibliography_path: "literature.bib",
+  additional_preamble: (
+    // You could put files to place before the table of contents here
+  )
 )
 
 // NOTE: https://www.dhbw.de/fileadmin/user_upload/Dokumente/Dokumente_fuer_Studierende/191212_Leitlinien_Praxismodule_Studien_Bachelorarbeiten.pdf
@@ -25,18 +29,8 @@
 //   incl. graphics and tables
 // - must document: task, process of implementation, solutions and results
 
-= Introduction
-
+// Include your chapters here
 #include "./chapters/01-Introduction.typ"
-
-#pagebreak()
-
-= Technical Background
-
-== Spell checking
-
-You can use #link("https://github.com/crate-ci/typos")[Typos],
-but I am too lazy to explain.
 
 = Summary and Conclusion
 
