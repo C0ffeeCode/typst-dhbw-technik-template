@@ -1,16 +1,17 @@
 
 #let acronyms = yaml("acronyms.yml");
-#let acroStates = state("acronymStates", ());
+#let acro_states = state("acronymStates", ());
 
 #let english_pack = (
 	degree_1: "for the",
-	degree_2: "from the Course of Studies Computer Science",
+	degree_2: "from the Course of Studies",
+	degree_3: "",
 	by: "by",
 	time_period: "Time Period",
 	student_id_course: "Student ID, Course",
 	company: "Company",
 	supervisor: "Supervisor in the Company",
-	decleration: (type, title) => [
+	declaration: (type, title) => [
 		= Author's Declaration
 
 		Hereby I solemnly declare:
@@ -47,13 +48,14 @@
 // TODO: Check alignment to LaTeX template
 #let german_pack = (
 	degree_1: "für den",
-	degree_2: "im Studiengang Informatik an der Dualen Hochschule Baden-Württemberg Stuttgart",
+	degree_2: "im Studiengang",
+	degree_3: "an der Dualen Hochschule Baden-Württemberg Stuttgart",
 	by: "von",
 	time_period: "Bearbeitungszeitraum",
 	student_id_course: "Matrikelnummer, Kurs",
 	company: "Ausbildungsfirma",
 	supervisor: "Betreuer",
-	decleration: (type, title) => [
+	declaration: (type, title) => [
 		== Erklärung
 
 		Ich erkläre hiermit ehrenwörtlich:
@@ -279,7 +281,7 @@
 
 	#text(14pt)[*#degree*]
 
-	#text(14pt)[#selected_lang.degree_2 #major]
+	#text(14pt)[#selected_lang.degree_2 #major #selected_lang.degree_3]
 	#v(32pt)
 
 	#text(14pt, selected_lang.by)
@@ -344,7 +346,7 @@
 	#set align(top)
 	#set align(start)
 
-	#(selected_lang.decleration)(type, title)
+	#(selected_lang.declaration)(type, title)
 	
 	#v(48pt)
 
@@ -494,7 +496,7 @@
 	let item = acronyms.at(short)
 
 	context({
-		let entries = acroStates.at(here()).filter(e => e == short);
+		let entries = acro_states.at(here()).filter(e => e == short);
 
 		// Already used once
 		if entries.len() > 0 {
@@ -505,7 +507,7 @@
 			}
 		// First usage
 		} else {
-			acroStates.update(e => {e.push(short); e;});
+			acro_states.update(e => {e.push(short); e;});
 			if pref == "short" {
 				link(label(short))[#short#append (#item)]
 			} else {
