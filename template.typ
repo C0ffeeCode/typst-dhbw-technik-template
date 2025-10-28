@@ -258,10 +258,10 @@
 	// nice
 	#grid(
 		columns: (1fr, 1fr),
-		align(center)[
+		align(center + horizon)[
 			#image(company.image, width: 69%)
 		],
-		align(center)[
+		align(center + horizon)[
 			#image(university.image, width: 69%)
 		],
 	)
