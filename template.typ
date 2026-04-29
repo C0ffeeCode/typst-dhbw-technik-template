@@ -476,12 +476,14 @@
 		style: if customized_ieee_citations {"/ieee-modified.csl"} else {"ieee"})
 
 	#if appendix != none [
+#counter(heading).update(0)
 		#pagebreak(weak: true)
 		#heading(numbering: none, selected_lang.appendix)
 		#set heading(
 			outlined: true,
 			bookmarked: true,
 			numbering: (..nums) => {
+// This removes the top-level numbering
 				let n = nums.pos()
 				n.remove(0)
 				return numbering("A.1", ..n)
