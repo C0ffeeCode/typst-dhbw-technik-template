@@ -11,6 +11,7 @@
 	student_id_course: "Student ID, Course",
 	company: "Company",
 	supervisor: "Supervisor in the Company",
+	list_of_tables: "List of Tables",
 	declaration: (type, title) => [
 		= Author's Declaration
 
@@ -54,6 +55,7 @@
 	time_period: "Bearbeitungszeitraum",
 	student_id_course: "Matrikelnummer, Kurs",
 	company: "Ausbildungsfirma",
+	list_of_tables: "Tabellenverzeichnis",
 	supervisor: "Betreuer",
 	declaration: (type, title) => [
 		== Erklärung
@@ -142,6 +144,8 @@
 	// Customized includes ISBNs and
 	// writes DOI in capital letters
 	customized_ieee_citations: true,
+	// If you want tables to be listed in a separate directory than other figures
+	individual_list_of_tables: false,
 
 	// The contents of your abstract
 	abstract: include "./abstract.typ",
@@ -406,8 +410,27 @@
 	#show outline.entry: it => [
 		#v(12pt, weak: true) #it
 	]
+	#if individual_list_of_tables [
+		#block[
+			#show outline.entry: it => {
+				if it.element.func() == figure and it.element.kind == table {
+					none
+				} else {
+					[#v(12pt, weak: true) #it]
+				}
+			}
 
-	#outline(target: figure, title: none)
+			#outline(target: figure, title: none)
+		]
+
+		#pagebreak(weak: true)
+
+		= #selected_lang.list_of_tables
+
+		#outline(target: figure.where(kind: table), title: none)
+	] else [
+		#outline(target: figure, title: none)
+	]
 
 	#pagebreak(weak: true)
 
