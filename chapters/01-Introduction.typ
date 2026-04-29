@@ -117,6 +117,9 @@ For example:
 
 And the template makes sure it is well readable in the PDF and and refrains you from signing a document which includes these TODO-markers.
 
+If you attempt to sign a document which contains TODO-markers, the compilation will fail/panic.
+This way, you can avoid accidentally submitting unfinished documents.
+
 == Once you are done
 
 Add a signature to your thesis.

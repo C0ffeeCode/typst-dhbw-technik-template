@@ -374,6 +374,9 @@
 		#line(length: 100%)
 		#author
 	]
+	#if signature != none {
+		panic("You have added a signature, indicating your document is a final version. However, there are still To-Dos left. Check your document for `#todo[...]`")
+	}
 
 	#pagebreak()
 
