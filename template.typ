@@ -49,7 +49,7 @@
 #let german_pack = (
 	degree_1: "für den",
 	degree_2: "im Studiengang",
-	degree_3: "an der Dualen Hochschule Baden-Württemberg Stuttgart",
+	degree_3: [an der\ Dualen Hochschule Baden-Württemberg Stuttgart],
 	by: "von",
 	time_period: "Bearbeitungszeitraum",
 	student_id_course: "Matrikelnummer, Kurs",
