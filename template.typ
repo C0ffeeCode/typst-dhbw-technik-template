@@ -262,10 +262,10 @@
 	#grid(
 		columns: (1fr, 1fr),
 		align(center + horizon)[
-			#image(company.image, width: 69%)
+			#image(company.image, width: 69%, alt: company.name + " logo")
 		],
 		align(center + horizon)[
-			#image(university.image, width: 69%)
+			#image(university.image, width: 69%, alt: "DHBW logo")
 		],
 	)
 	#v(64pt)
@@ -390,7 +390,8 @@
 		if it.element.func() != heading { return it }
 		show ".": ""
 		v(2pt)
-		strong(it)
+		// strong(it)
+		text(weight: "bold", it) // This is PDF/UA compatible
 	}
 
 	#outline(target: heading, depth: 2, title: selected_lang.contents)
