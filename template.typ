@@ -11,6 +11,7 @@
 	student_id_course: "Student ID, Course",
 	company: "Company",
 	supervisor: "Supervisor in the Company",
+	reviewer: "Reviewer",
 	list_of_tables: "List of Tables",
 	declaration: (type, title) => [
 		= Author's Declaration
@@ -58,6 +59,7 @@
 	company: "Ausbildungsfirma",
 	list_of_tables: "Tabellenverzeichnis",
 	supervisor: "Betreuer",
+reviewer: "Gutachter",
 	declaration: (type, title) => [
 		== Erklärung
 
@@ -105,6 +107,8 @@ figure_raw_supplement: [Quellcode],
 
 	// the name of your supervisor
 	supervisor: none,
+// reviewer assigned by the university, if applicable
+	reviewer: none,
 
 	// the due date of your thesis
 	date: none,
@@ -302,14 +306,16 @@ figure_raw_supplement: [Quellcode],
 			*#selected_lang.time_period* \
 			*#selected_lang.student_id_course* \
 			*#selected_lang.company* \
-			*#selected_lang.supervisor*
+			*#selected_lang.supervisor* \
+			#if reviewer != none [*#selected_lang.reviewer*]
 		],
 		none,
 		align(left)[
 			#time_period \
 			#student_id, #course \
 			#company.name \
-			#supervisor
+			#supervisor \
+			#if reviewer != none [#reviewer]
 		],
 	)
 
