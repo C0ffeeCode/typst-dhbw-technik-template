@@ -37,6 +37,7 @@
 	appendix: "Appendix",
 	chapter: "Chapter",
 	section: "Section",
+// figure_raw_supplement: "Listing", // the default
 	confidentiality_clause: [
 		= Confidentiality Clause
 
@@ -81,6 +82,7 @@
 	appendix: "Anhang",
 	chapter: "Kapitel",
 	section: "Abschnitt",
+figure_raw_supplement: [Quellcode],
 	confidentiality_clause: [
 		= Sperrvermerk
 	
@@ -151,10 +153,6 @@
 	abstract: include "./abstract.typ",
 	// To be append after the bibliography
 	appendix: none,
-
-	// First chapter of your thesis
-	// This is *not* required anymore
-	// first_chapter_title: none,
 
 	// If headings should stick to the following block
 	// to avoid a heading without content on the same page.
@@ -482,6 +480,10 @@
 	  stroke: luma(128),
 	  fill: luma(240),
 	)
+// Set default supplement for raw / code blocks
+  #show figure.where(kind: raw): set figure(supplement: if language == "de" {
+    selected_lang.figure_raw_supplement
+  } else { auto })
 
 	// the actual chapters
 	#body
