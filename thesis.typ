@@ -11,7 +11,11 @@
     month: 10,
     day: 10,
   ),
-  time_period: "01.01.2023 - 00.00.2024",
+  time_period_start: datetime(
+    year: 1984,
+    month: 1,
+    day: 1,
+  ),
   confidentiality_clause: true,
   language: "en",
   supervisor: "Someone",

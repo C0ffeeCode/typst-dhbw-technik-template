@@ -38,14 +38,15 @@
 	appendix: "Appendix",
 	chapter: "Chapter",
 	section: "Section",
-// figure_raw_supplement: "Listing", // the default
+	// figure_raw_supplement: "Listing", // the default
 	confidentiality_clause: [
 		= Confidentiality Clause
 
 		The content of this work may not be made accessible to people outside of the
 		testing process and the evaluation process neither as a whole nor as excerpts,
 		unless an authorization stating otherwise is presented by the training facility.
-	]
+	],
+	date_pattern: "[day].[month].[year]",
 )
 
 // TODO: Check alignment to LaTeX template
@@ -59,7 +60,7 @@
 	company: "Ausbildungsfirma",
 	list_of_tables: "Tabellenverzeichnis",
 	supervisor: "Betreuer",
-reviewer: "Gutachter",
+	reviewer: "Gutachter",
 	declaration: (type, title) => [
 		== Erklärung
 
@@ -84,14 +85,15 @@ reviewer: "Gutachter",
 	appendix: "Anhang",
 	chapter: "Kapitel",
 	section: "Abschnitt",
-figure_raw_supplement: [Quellcode],
+	figure_raw_supplement: [Quellcode],
 	confidentiality_clause: [
 		= Sperrvermerk
 	
 		Der Inhalt dieser Arbeit darf weder als Ganzes noch in Auszügen Personen außerhalb des
 		Prüfungs- und des Evaluationsverfahrens zugänglich gemacht werden, sofern keine anders
 		lautende Genehmigung des Dualen Partners vorliegt.
-	]
+	],
+	date_pattern: "[day].[month].[year]",
 )
 
 #let thesis(
@@ -107,13 +109,17 @@ figure_raw_supplement: [Quellcode],
 
 	// the name of your supervisor
 	supervisor: none,
-// reviewer assigned by the university, if applicable
+	// reviewer assigned by the university, if applicable
 	reviewer: none,
 
 	// the due date of your thesis
 	date: none,
 	// the time period that the work described in your thesis took place in
 	time_period: none,
+	// The time you started working on this thesis
+	time_period_start: none,
+	// the time you finished working on your thesis. This is equal to `date` by default
+	time_period_end: none,
 
 	// the type of your thesis, such as T1000, T2000, etc.
 	type: none,
@@ -173,8 +179,8 @@ figure_raw_supplement: [Quellcode],
 	#assert.ne(type, none)
 	#assert.ne(course, none)
 	#assert.ne(date, none)
-	#assert.ne(time_period, none)
 	#assert.ne(supervisor, none)
+	#assert(time_period != none or (time_period_start != none and time_period == none)) // time_period_end is treated like date as a default
 
 	// Use english by default
 	#let selected_lang = if language == "de" {german_pack} else {english_pack}
@@ -296,7 +302,7 @@ figure_raw_supplement: [Quellcode],
 	#text(16pt)[*#author*]
 	#v(16pt)
 
-	#text(14pt)[#date.display("[day].[month].[year]")]
+	#text(14pt)[#date.display(selected_lang.date_pattern)]
 
 	#set align(bottom)
 
@@ -311,7 +317,13 @@ figure_raw_supplement: [Quellcode],
 		],
 		none,
 		align(left)[
-			#time_period \
+			#{if time_period != none {
+				time_period
+				} else [
+					#{time_period_end = if time_period_end == none {date} else {time_period_end}}
+					#time_period_start.display(selected_lang.date_pattern) -- #time_period_end.display(selected_lang.date_pattern)
+				]
+			} \
 			#student_id, #course \
 			#company.name \
 			#supervisor \
@@ -359,7 +371,7 @@ figure_raw_supplement: [Quellcode],
 	
 	#v(48pt)
 
-	#university.location, #date.display("[day].[month].[year]")
+	#university.location, #date.display(selected_lang.date_pattern)
 	// #v(48pt)
 
 	#box(width: 196pt, height: 40pt)[
@@ -486,7 +498,7 @@ figure_raw_supplement: [Quellcode],
 	  stroke: luma(128),
 	  fill: luma(240),
 	)
-// Set default supplement for raw / code blocks
+	// Set default supplement for raw / code blocks
   #show figure.where(kind: raw): set figure(supplement: if language == "de" {
     selected_lang.figure_raw_supplement
   } else { auto })
